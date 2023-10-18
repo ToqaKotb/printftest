@@ -8,71 +8,49 @@
 
 int print_char(va_list val)
 {
-	_putchar(va_arg(val, int));
+	char d;
+
+	d = va_arg(val, int);
+	_putchar(d);
 	return (1);
 }
+
 /**
  * print_string - to print string
- * @text: argument to printf
+ * @val: argument to printf
  * Return: number of printed charcters
  */
-int print_string(va_list text)
+
+int printf_string(va_list val)
 {
-	int a;
-	char *str;
+	char *d;
+	int a, len;
 
-	str = va_arg(arg, char *);
-	if (str == NULL)
-		str = "(null)";
-	for (a = 0; str[a] != '\0'; a++)
-		_putchar(str[a]);
-	return (a);
-}
-
-/**
- * print_percent - Prints a percent sign
- * @arg: args
- * Return: one
- */
-
-int print_percent(__attribute__((unused))va_list arg)
-{
-	_putchar('%');
-	return (1);
-}
-
-/**
- * print_int - to print an integer
- * @vals: argument to printf
- * Return: number of digits printed
- */
-int print_int(va_list vals)
-{
-	int m;
-	int dividor;
-	int a;
-	unsigned int num;
-
-	a  = va_arg(vals, int);
-	dividor = 1;
-	l = 0;
-
-	if (m < 0)
+	d = va_arg(val, char *);
+	if (d == NULL)
 	{
-		l += _putchar('-');
-		num = m * -1;
+		d = "(null)";
+		len = _strlen(d);
+		for (a = 0; a < len; a++)
+			_putchar(d[a]);
+		return (len);
 	}
 	else
-		num = m;
-
-	for (; num / dividor > 9; )
-		dividor *= 10;
-
-	for (; dividor != 0; )
 	{
-		l += _putchar('0' + num / dividor);
-		num %= dividor;
-		dividor /= 10;
+		len = _strlen(d);
+		for (a = 0; a < len; a++)
+			_putchar(d[a]);
+		return (len);
 	}
-	return (l);
+}
+
+/**
+ * printf_37 - prints the percentage at num 37
+ * Return: one when success
+ */
+
+int printf_37(void)
+{
+	_putchar(37);
+	return (1);
 }

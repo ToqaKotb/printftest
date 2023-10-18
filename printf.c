@@ -9,71 +9,37 @@
 
 int _printf(const char *format, ...)
 {
-	selct func[] = {
-	{"c", print_char},
-	{"s", print_string},
-	{"%", print_percent},
-	{"d", print_int},
-	{"i", print_int},
+	convert_match m[] = {
+		{"%s", printf_string}, {"%c", printf_char},
+		{"%%", printf_37},
+		{"%i", printf_int}, {"%d", printf_dec}
 	};
 
-	va_list args;
-	int printed_chars;
+va_list args;
+	int a = 0, b, len = 0;
 
-	if (format == NULL)
-		return (-1);
 	va_start(args, format);
-	printed_chars = selector(format, func, args);
-	va_end(args);
-	return (printed_chars);
-}
-/**
- * select - function to select func
- * @format: characters string
- * @func: structure with all possible functions
- * @args: arguments to print
- * Return: number of printed characters
- */
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
 
-int select(const char *format, selct func[], va_list args)
-{
-	int a, b, printed_char, cnt;
-
-	printed_char = 0;
-
-	for (a = 0; format[a] != '\0'; a++)
+Here:
+	while (format[a] != '\0')
 	{
-		if (format[a] == '%')
+		b = 13;
+		while (b >= 0)
 		{
-			for (b = 0; func[j].spc != NULL; b++)
+			if (m[b].id[0] == format[a] && m[b].id[1] == format[a + 1])
 			{
-				if (format[a + 1] == func[b].spc[0])
-				{
-					cnt = func[b].f(args);
-					if (cnt == -1)
-						return (-1);
-					printed_char += cnt;
-					break;
-				}
+				len += m[b].f(args);
+				a = a + 2;
+				goto Here;
 			}
-			if (func[b].spc == NULL && format[a + 1] != ' ')
-			{
-				if (format[a + 1] != '\0')
-				{
-					_putchar(format[a]);
-					_putchar(format[a + 1]);
-					printed_char = printed_char + 2;
-				}
-				else
-					return (-1);
-			}
-			a = a + 1;
+			b--;
 		}
-		else
-		{
-			_putchar(format[a]);
-			printed_char++;
-		}
+		_putchar(format[a]);
+		len++;
+		a++;
 	}
-	return (printed_char);
+	va_end(args);
+	return (len);
 }
